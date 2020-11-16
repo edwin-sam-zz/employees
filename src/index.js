@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { gql } from '@apollo/client';
 
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
@@ -15,7 +16,7 @@ const client = new AWSAppSyncClient({
   region: appSyncConfig.AppSync.Default.Region,
   auth: {
     type: appSyncConfig.AppSync.Default.AuthMode,
-    apiKey: appSyncConfig.AppSync.Default.apiKey,
+    apiKey: appSyncConfig.AppSync.Default.ApiKey,
   }
 });
 
@@ -32,5 +33,24 @@ const WithProvider = () => {
         </ApolloProvider>
     )
 }
+
+// Test query 
+
+client
+  .query({
+    query: gql`
+      query listEmployees {
+        listEmployees {
+            items {
+                id
+                firstname
+                lastname
+            }
+        }
+    }
+    `
+  })
+  .then(result => console.log(result));
+
 
 ReactDOM.render(<WithProvider />, document.getElementById('root'));

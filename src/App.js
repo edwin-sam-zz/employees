@@ -1,9 +1,13 @@
 import React from 'react';
+import Header from './Components/header'
+import AddEmployee from './AddEmployee';
 
 const App = () => {
     return (
         <div>
-            <h1>Hi Edwin</h1>
+            <Header />
+            {/* <EmployeeList /> */}
+            <AddEmployee />
         </div>
     );
 }
