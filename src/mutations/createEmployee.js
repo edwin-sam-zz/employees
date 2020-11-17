@@ -1,11 +1,13 @@
 import gql from 'graphql-tag'
 
-export default gql` 
+const CREATE_EMPLOYEE = gql` 
   mutation createEmployee (
       $firstName: String!,
-      $lastName: String!,
+      $lastName: String!
     ) {
-    createEmployee(input: $input, condition: $condition){
+    createEmployee(input: {
+      firstName: $firstName, lastName: $lastName,
+    }) {
         id
       firstName
       lastName
@@ -13,3 +15,4 @@ export default gql`
     }
 }
 `
+export default CREATE_EMPLOYEE;
