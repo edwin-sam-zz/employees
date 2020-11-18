@@ -36,8 +36,19 @@ const WithProvider = () => {
 
 // Test query 
 
-client
-  .query({
+//client.mutate({
+//   variables: { firstname: "Edwin", lastname: "Sam" },
+//   mutation: gql`
+//     mutation createEmployee($firstname: String!, $lastname: String!){
+//       createEmployee( input: {firstname: $firstname, lastname: $lastname} ) {
+//         id
+//         firstname
+//         lastname
+//       }
+//     }
+//   `
+
+client.query({
     query: gql`
       query listEmployees {
         listEmployees {
@@ -49,8 +60,23 @@ client
         }
     }
     `
-  })
-  .then(result => console.log(result));
+    
+})  
+    
+//     gql`
+//       query listEmployees {
+//         listEmployees {
+//             items {
+//                 id
+//                 firstname
+//                 lastname
+//             }
+//         }
+//     }
+//     `
+//   })
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
 
 
 ReactDOM.render(<WithProvider />, document.getElementById('root'));

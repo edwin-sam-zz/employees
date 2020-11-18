@@ -57,21 +57,18 @@ class AddEmployee extends React.Component {
 
     EmployeeForm = () => {
         
-        const fn = this.state.firstName;
-        const ln = this.state.lastName;
+        const {firstName, lastName} = this.state;
     return (
         <FormControl className="forms">
             <TextField id="standard-basic" label="First Name" value={this.state.firstName} onChange={evt => this.onChange('firstName', evt.target.value)} />
             <TextField id="standard-basic" label="Last Name" value={this.state.lastName} onChange={evt => this.onChange('lastName', evt.target.value)}/>
-            <Mutation mutation={CREATE_EMPLOYEE} variables={{ fn, ln }}>
+            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: this.state.firstName, lastname: this.state.lastName}}>
                 {postMutation => <Button variant="contained" color="primary" 
                     onClick={postMutation}>
-                    {/* this.submitButtonClicked(); 
-                    this.clear(); */}
                 Submit
                 </Button>}
             </Mutation>
-            {console.log(fn, ln)}
+            {console.log(firstName, lastName)}
         </FormControl>
         )
     }

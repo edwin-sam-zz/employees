@@ -1,18 +1,15 @@
 import gql from 'graphql-tag'
 
+
+
 const CREATE_EMPLOYEE = gql` 
-  mutation createEmployee (
-      $firstName: String!,
-      $lastName: String!
-    ) {
-    createEmployee(input: {
-      firstName: $firstName, lastName: $lastName,
-    }) {
+  mutation createEmployee ($firstname: String!, $lastname: String!)
+   {
+    createEmployee(input: {firstname: $firstname, lastname: $lastname}) {
         id
-      firstName
-      lastName
-      skills
+      firstname
+      lastname
     }
 }
-`
+`;
 export default CREATE_EMPLOYEE;
