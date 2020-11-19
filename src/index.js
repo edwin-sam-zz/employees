@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { gql } from '@apollo/client';
+import ListOfEmployees from './Components/ListOfEmployees'
 
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
@@ -24,13 +25,16 @@ const client = new AWSAppSyncClient({
 const WithProvider = () => {
         
     return (
-        <ApolloProvider client={client}>
-        <Rehydrated 
-            render={({ rehydrated }) => (
-                rehydrated ? <App /> : <strong>Your custom UI componen here...</strong>
-            )}
-        />
-        </ApolloProvider>
+        
+            <ApolloProvider client={client}>
+                <Rehydrated 
+                    render={({ rehydrated }) => (
+                        rehydrated ? <App /> : <strong>Your custom UI componen here...</strong>
+                    )}
+                />
+            </ApolloProvider>
+        
+        
     )
 }
 

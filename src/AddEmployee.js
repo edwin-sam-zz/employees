@@ -1,122 +1,95 @@
-import { graphql } from 'react-apollo'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-import React, { Component } from 'react'
+import { Query } from 'react-apollo'
+import React, { useState } from 'react';
+import { Mutation } from 'react-apollo';
 import Table from '@material-ui/core/Table';    
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import { FormControl } from '@material-ui/core';
+import { FormControl, TableBody } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from 'react-apollo';
 import CREATE_EMPLOYEE from './mutations/createEmployee'
+import LIST_EMPLOYEE from './queries/ListEmployees'
 
 import './index.css';
 
-class AddEmployee extends React.Component { 
-    constructor(props) {
-        super(props)
-            this.state = {
-                id: '',
-                firstName: '',
-                lastName: '',
-                skills: [],
-                visible: false,
-                title: 'Add Employee',
-            }
+const EmployeeForm = () => {
+
+    const [id, setID] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [skills, setSkills] = useState([]);
+
+    const clearForm = () => {
+        setFirstName('');
+        setLastName('');
     }
 
-  onChange = (key, value) => {
-    this.setState({ [key]: value })
-  }
-
-  clear = () => {
-    this.setState({
-      firstName: '',
-      lastName: ''
-    })
-  }
-
-  addSkills = () => {
-    if (this.state.skills === '') return
-    const skills = this.state.skills
-    skills.push(this.state.skilss)
-    this.setState({
-      skills,
-      skills: ''
-    })
-  }  
-
-   submitButtonClicked = () => {
-        if (this.state.visible) {
-            console.log(this.state.firstName)
-            console.log(this.state.lastName)
-        }
+    const submitButtonClicked = () => {
+            console.log(firstName);
+            console.log(lastName);
     }
 
-    EmployeeForm = () => {
-        
-        const {firstName, lastName} = this.state;
     return (
         <FormControl className="forms">
-            <TextField id="standard-basic" label="First Name" value={this.state.firstName} onChange={evt => this.onChange('firstName', evt.target.value)} />
-            <TextField id="standard-basic" label="Last Name" value={this.state.lastName} onChange={evt => this.onChange('lastName', evt.target.value)}/>
-            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: this.state.firstName, lastname: this.state.lastName}}>
+            <TextField id="standard-basic" label="First Name" value={firstName} onChange={evt => setFirstName(evt.target.value)} />
+            <TextField id="standard-basic" label="Last Name" value={lastName} onChange={evt => setLastName(evt.target.value)}/>
+            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName}}>
                 {postMutation => <Button variant="contained" color="primary" 
-                    onClick={postMutation}>
+                    onClick={() => {
+                        postMutation();
+                        submitButtonClicked();
+                        clearForm();
+                    }}>
                 Submit
                 </Button>}
             </Mutation>
-            {console.log(firstName, lastName)}
         </FormControl>
-        )
-    }
-
-    render(){
-        const renderForm = this.state.visible ? ( <this.EmployeeForm /> ) : null;
-        const buttonText = this.state.title ? 'Add Employee' : 'Back';
-
-        return (
-            <div>
-                {renderForm}
-                <Button variant="contained" color="primary" className="addEmpButton"
-                onClick={() => this.setState({visible: !this.state.visible, title: !this.state.title})} 
-                >
-                    {buttonText}
-                </Button>
-                
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Id</TableCell>
-                            <TableCell>First Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
-
-
-            </div>
-        )
-    }
+    )
 }
 
-// export default graphql(CreateEmployee, {
-//     props: props => ({
-//         onAdd: employee => props.mutate({
-//         variables: employee,
-//         optimisticResponse: {
-//             __typename: 'Mutation',
-//             createEmployee: { ...employee,  __typename: 'Employee' }
-//         },
-//         update: (proxy, { data: { createEmployee } }) => {
-//             const data = proxy.readQuery({ query: ListEmployees });
-//             data.listEmployee.items.push(listEmployee);
-//             proxy.writeQuery({ query: ListEmployees, data });
-//         }
-//         })
-//     })
-//     })(AddEmployee)
+const AddEmployee = () => { 
 
+    const [visible, setVisible] = useState(false);
+    const [title, setTitle] = useState('Add Emmployee');
+
+    const renderForm = visible ? ( <EmployeeForm /> ) : null;
+    const buttonText = title ? 'Add Employee' : setTitle('Back');
+
+    const clickButton = () => {
+        setVisible(true);
+        setTitle('Back');
+    }
+
+    return (
+        <div>
+            {renderForm}
+            <Button variant="contained" color="primary" className="addEmpButton"
+            onClick={() => clickButton()} 
+            >
+                {buttonText}
+            </Button>
+            <p>
+            </p>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Id</TableCell>
+                        <TableCell>First Name</TableCell>
+                        <TableCell>Last Name</TableCell>
+                    </TableRow>
+                </TableHead>
+            </Table>
+
+            {/* <Query query={LIST_EMPLOYEE}>
+
+            </Query> */}
+
+
+
+        </div>
+    )
+}
+         
 export default AddEmployee;

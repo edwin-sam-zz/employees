@@ -1,14 +1,15 @@
 import gql from 'graphql-tag'
 
-export default gql`
-  query listEmployees {
-    listEmployees  {
-      items {
-        id
-        firstName
-        lastName
-        skills
-      }
+const LIST_EMPLOYEE = gql`
+      query listEmployees {
+        listEmployees {
+            items {
+                id
+                firstname
+                lastname
+            }
+        }
     }
-  }
-`
+    `
+
+export default LIST_EMPLOYEE;

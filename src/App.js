@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Components/header'
 import AddEmployee from './AddEmployee';
+import ListOfEmployees from './Components/ListOfEmployees';
 
 const App = () => {
     return (
@@ -8,6 +9,8 @@ const App = () => {
             <Header />
             {/* <EmployeeList /> */}
             <AddEmployee />
+            <ListOfEmployees />
+            
         </div>
     );
 }
