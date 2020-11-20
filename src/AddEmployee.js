@@ -27,8 +27,8 @@ const EmployeeForm = () => {
     }
 
     const submitButtonClicked = () => {
-            console.log(firstName);
-            console.log(lastName);
+            console.log(firstName, lastName);
+
     }
 
 return (

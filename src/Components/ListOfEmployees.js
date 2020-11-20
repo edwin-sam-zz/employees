@@ -1,5 +1,6 @@
 
 import LIST_EMPLOYEE from '../queries/ListEmployees';
+import REMOVE_EMPLOYEE  from '../mutations/removeEmployee';
 import { useQuery } from '@apollo/client';
 import { Query } from "react-apollo";
 import { ApolloProvider } from 'react-apollo';
@@ -9,14 +10,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Table from '@material-ui/core/Table';
+import Button from '@material-ui/core/Button';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag'
 
 const ListOfEmployees = () => {
 
     const shortID = (id) => {
-        var str = id;
-        var sID = str.substring(0, 7);
+        var sID = id.substring(0, 7);
         return sID;
-
     }
 
     return (
@@ -37,6 +39,22 @@ const ListOfEmployees = () => {
                             </TableCell>
                             <TableCell align="center">{row.firstname}</TableCell>
                             <TableCell align="right">{row.lastname}</TableCell>
+                            <Mutation mutation={REMOVE_EMPLOYEE} refetchQueries={[{query: gql`query listEmployees {
+                                        listEmployees {
+                                            items {
+                                                id
+                                                firstname
+                                                lastname
+                                            }
+                                        }
+                                    }
+                                    `}]}>
+                                {mutation => <Button onClick={() => 
+                                    mutation({ variables: {id: row.id }})}>
+                                        Delete
+                                        </Button>}
+                            </Mutation>
+                            
                         </TableRow>
                     ))}
                 </TableBody>

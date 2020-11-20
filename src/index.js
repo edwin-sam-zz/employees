@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { gql } from '@apollo/client';
-import ListOfEmployees from './Components/ListOfEmployees'
 
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
@@ -66,19 +65,6 @@ client.query({
     `
     
 })  
-    
-//     gql`
-//       query listEmployees {
-//         listEmployees {
-//             items {
-//                 id
-//                 firstname
-//                 lastname
-//             }
-//         }
-//     }
-//     `
-//   })
   .then(result => console.log(result))
   .catch(error => console.log(error));
 
