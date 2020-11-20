@@ -1,4 +1,3 @@
-import { Query } from 'react-apollo'
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import Table from '@material-ui/core/Table';    
@@ -6,17 +5,18 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import { FormControl, TableBody } from '@material-ui/core';
+import { FormControl } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
-import { useMutation, useQuery } from 'react-apollo';
 import CREATE_EMPLOYEE from './mutations/createEmployee'
-import LIST_EMPLOYEE from './queries/ListEmployees'
+import ListOfEmployees from './Components/ListOfEmployees';
+import client from './index'
+import gql from 'graphql-tag'
+import LIST_EMPLOYEE from './Components/ListOfEmployees'
 
 import './index.css';
 
 const EmployeeForm = () => {
 
-    const [id, setID] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [skills, setSkills] = useState([]);
@@ -31,36 +31,46 @@ const EmployeeForm = () => {
             console.log(lastName);
     }
 
-    return (
+return (
         <FormControl className="forms">
             <TextField id="standard-basic" label="First Name" value={firstName} onChange={evt => setFirstName(evt.target.value)} />
             <TextField id="standard-basic" label="Last Name" value={lastName} onChange={evt => setLastName(evt.target.value)}/>
-            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName}}>
-                {postMutation => <Button variant="contained" color="primary" 
-                    onClick={() => {
-                        postMutation();
-                        submitButtonClicked();
-                        clearForm();
-                    }}>
-                Submit
-                </Button>}
-            </Mutation>
-        </FormControl>
-    )
+
+            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName}} refetchQueries={[{query: gql`query listEmployees {
+                        listEmployees {
+                            items {
+                                id
+                                firstname
+                                lastname
+                            }
+                        }
+                    }
+                    `}]}>
+                    {postMutation => <Button variant="contained" color="primary" 
+                        onClick={() => {
+                            postMutation();
+                            submitButtonClicked();
+                            clearForm();
+                        }}>
+                    Submit
+                    </Button>}
+                    </Mutation>
+             </FormControl>
+        )
 }
 
 const AddEmployee = () => { 
 
     const [visible, setVisible] = useState(false);
-    const [title, setTitle] = useState('Add Emmployee');
+    const [title, setTitle] = useState('Add Employee');
 
-    const renderForm = visible ? ( <EmployeeForm /> ) : null;
-    const buttonText = title ? 'Add Employee' : setTitle('Back');
+    const renderForm = visible ? <EmployeeForm /> : null;
+    const buttonText = title;
 
     const clickButton = () => {
-        setVisible(true);
-        setTitle('Back');
-    }
+        setVisible(<EmployeeForm />);
+        setTitle('Back')
+    }    
 
     return (
         <div>
@@ -75,18 +85,15 @@ const AddEmployee = () => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Id</TableCell>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>Last Name</TableCell>
+                        <TableCell component="th" scope="row">Id</TableCell>
+                        <TableCell align="center">First Name</TableCell>
+                        <TableCell align="right">Last Name</TableCell>
                     </TableRow>
                 </TableHead>
+
+                <ListOfEmployees />
+
             </Table>
-
-            {/* <Query query={LIST_EMPLOYEE}>
-
-            </Query> */}
-
-
 
         </div>
     )

@@ -82,5 +82,7 @@ client.query({
   .then(result => console.log(result))
   .catch(error => console.log(error));
 
+  export default client;
+
 
 ReactDOM.render(<WithProvider />, document.getElementById('root'));

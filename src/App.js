@@ -7,9 +7,7 @@ const App = () => {
     return (
         <div>
             <Header />
-            {/* <EmployeeList /> */}
             <AddEmployee />
-            <ListOfEmployees />
             
         </div>
     );
