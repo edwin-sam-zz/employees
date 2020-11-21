@@ -35,6 +35,7 @@ return (
         <FormControl className="forms">
             <TextField id="standard-basic" label="First Name" value={firstName} onChange={evt => setFirstName(evt.target.value)} />
             <TextField id="standard-basic" label="Last Name" value={lastName} onChange={evt => setLastName(evt.target.value)}/>
+            <TextField id="standard-basic" label="Skills (Seperate with Commas)" value={skills} onChange={evt => setSkills(evt.target.value)}/>
 
             <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName}} refetchQueries={[{query: gql`query listEmployees {
                         listEmployees {
@@ -88,6 +89,7 @@ const AddEmployee = () => {
                         <TableCell component="th" scope="row">Id</TableCell>
                         <TableCell align="center">First Name</TableCell>
                         <TableCell align="right">Last Name</TableCell>
+                        <TableCell align="right">Skills</TableCell>
                     </TableRow>
                 </TableHead>
 
