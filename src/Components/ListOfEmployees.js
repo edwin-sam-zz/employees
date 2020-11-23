@@ -39,13 +39,14 @@ const ListOfEmployees = () => {
                             </TableCell>
                             <TableCell align="center">{row.firstname}</TableCell>
                             <TableCell align="right">{row.lastname}</TableCell>
-                            <TableCell align="right">List Of Skills</TableCell>
+                            <TableCell align="right">{row.skills}</TableCell>
                             <Mutation mutation={REMOVE_EMPLOYEE} refetchQueries={[{query: gql`query listEmployees {
                                         listEmployees {
                                             items {
                                                 id
                                                 firstname
                                                 lastname
+                                                skills
                                             }
                                         }
                                     }
@@ -62,7 +63,7 @@ const ListOfEmployees = () => {
                 </TableBody>
             )}
         }
-      </Query>
+        </Query>
     )
 }
 

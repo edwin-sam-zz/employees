@@ -21,20 +21,17 @@ const client = new AWSAppSyncClient({
 });
 
 // B
-const WithProvider = () => {
-        
-    return (
-        
-            <ApolloProvider client={client}>
-                <Rehydrated 
-                    render={({ rehydrated }) => (
-                        rehydrated ? <App /> : <strong>Your custom UI componen here...</strong>
-                    )}
-                />
-            </ApolloProvider>
-        
-        
-    )
+const WithProvider = () => {  
+
+  return (
+    <ApolloProvider client={client}>
+        <Rehydrated 
+            render={({ rehydrated }) => (
+                rehydrated ? <App /> : <strong>Your custom UI component here...</strong>
+            )}
+        />
+    </ApolloProvider>
+  )
 }
 
 // Test query 
@@ -52,23 +49,21 @@ const WithProvider = () => {
 //   `
 
 client.query({
-    query: gql`
-      query listEmployees {
-        listEmployees {
-            items {
-                id
-                firstname
-                lastname
-            }
-        }
-    }
-    `
-    
+  query: gql`
+    query listEmployees {
+      listEmployees {
+          items {
+              id
+              firstname
+              lastname
+              skills
+          }
+      }
+  }
+  `  
 })  
   .then(result => console.log(result))
   .catch(error => console.log(error));
-
-  export default client;
 
 
 ReactDOM.render(<WithProvider />, document.getElementById('root'));

@@ -24,40 +24,42 @@ const EmployeeForm = () => {
     const clearForm = () => {
         setFirstName('');
         setLastName('');
+        setSkills('');
     }
 
     const submitButtonClicked = () => {
-            console.log(firstName, lastName);
+        console.log(firstName, lastName, skills);
 
     }
 
-return (
+    return (
         <FormControl className="forms">
             <TextField id="standard-basic" label="First Name" value={firstName} onChange={evt => setFirstName(evt.target.value)} />
             <TextField id="standard-basic" label="Last Name" value={lastName} onChange={evt => setLastName(evt.target.value)}/>
             <TextField id="standard-basic" label="Skills (Seperate with Commas)" value={skills} onChange={evt => setSkills(evt.target.value)}/>
 
-            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName}} refetchQueries={[{query: gql`query listEmployees {
-                        listEmployees {
-                            items {
-                                id
-                                firstname
-                                lastname
-                            }
+            <Mutation mutation={CREATE_EMPLOYEE} variables={{firstname: firstName, lastname: lastName, skills: skills}} refetchQueries={[{query: gql`query listEmployees {
+                    listEmployees {
+                        items {
+                            id
+                            firstname
+                            lastname
+                            skills
                         }
                     }
-                    `}]}>
-                    {postMutation => <Button variant="contained" color="primary" 
-                        onClick={() => {
-                            postMutation();
-                            submitButtonClicked();
-                            clearForm();
-                        }}>
-                    Submit
-                    </Button>}
-                    </Mutation>
-             </FormControl>
-        )
+                }
+                `}]}>
+                {postMutation => <Button variant="contained" color="primary" 
+                    onClick={() => {
+                        postMutation();
+                        submitButtonClicked();
+                        clearForm();
+                    }}>
+                Submit
+                </Button>}
+            </Mutation>
+        </FormControl>
+    )
 }
 
 const AddEmployee = () => { 
